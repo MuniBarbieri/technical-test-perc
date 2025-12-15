@@ -57,6 +57,7 @@ export class BooksComponent implements OnDestroy {
 
   selectedBook: Book | null = null;
   private currentBooks: Book[] = [];
+  isLoading = false;
 
   constructor(
     private readonly booksService: BooksService,
@@ -117,37 +118,54 @@ export class BooksComponent implements OnDestroy {
       return;
     }
 
-    if (this.isEditing) {
-      this.booksService.update(formValue);
-      this.snackBar.open('Book updated successfully', 'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'bottom',
-        horizontalPosition: 'center',
-      });
-    } else {
-      this.booksService.create(formValue);
-      this.snackBar.open('New Book created successfully', 'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'bottom',
-        horizontalPosition: 'center',
-      });
-    }
-
-    this.clearSelection();
+    // Simular carga en DB tanto al crear como al editar
+    this.isLoading = true;
+    
+    // Simular una operación asíncrona de base de datos (1.5 segundos)
+    setTimeout(() => {
+      if (this.isEditing) {
+        this.booksService.update(formValue);
+        this.snackBar.open('Book updated successfully', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+          panelClass: ['success-snackbar'],
+        });
+      } else {
+        this.booksService.create(formValue);
+        this.snackBar.open('New Book created successfully', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'bottom',
+          horizontalPosition: 'center',
+          panelClass: ['success-snackbar'],
+        });
+      }
+      this.clearSelection();
+      this.isLoading = false;
+    }, 1500);
   }
 
   delete(book: Book): void {
-    this.booksService.remove(book.id);
+    // Simular carga en DB al borrar un libro
+    this.isLoading = true;
     
-    this.snackBar.open('Book deleted successfully', 'Cerrar', {
-      duration: 3000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'center',
-    });
+    // Simular una operación asíncrona de base de datos (1.5 segundos)
+    setTimeout(() => {
+      this.booksService.remove(book.id);
+      
+      this.snackBar.open('Book deleted successfully', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'center',
+        panelClass: ['success-snackbar'],
+      });
 
-    if (this.selectedBook?.id === book.id) {
-      this.clearSelection();
-    }
+      if (this.selectedBook?.id === book.id) {
+        this.clearSelection();
+      }
+      
+      this.isLoading = false;
+    }, 1500);
   }
 
   get isEditing(): boolean {

@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class=""></mat-progress-bar>  
 <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
     <div class="max-w-6xl mx-auto space-y-6">
       <!-- Header -->
@@ -52,7 +53,7 @@
                 color="primary"
                 type="submit"
                 class="min-w-[140px] h-[42px] font-medium tracking-wide transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
-                [disabled]="isSubmitDisabled"
+                [disabled]="isSubmitDisabled || isLoading"
               >
                 {{ isEditing ? '💾 Update Book' : '✨ Create Book' }}
               </button>
@@ -63,6 +64,7 @@
                 *ngIf="isEditing"
                 (click)="clearSelection()"
                 class="min-w-[100px] h-[42px] transition-all duration-200 hover:-translate-y-0.5"
+                [disabled]="isLoading"
               >
                 Cancel
               </button>
