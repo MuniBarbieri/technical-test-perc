@@ -1,7 +1,9 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { combineLatest, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { BooksService } from '../../shared/services/books.service';
 import { Book } from '../../shared/models';
 import { PercDataTableColumn, PercDataTableConfig } from '../../shared/components/perc-data-table/perc-data-table.component';
@@ -14,10 +16,11 @@ const MAX_BOOK_NAME_LENGTH = 100;
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
 })
-export class BooksComponent implements OnDestroy {
+export class BooksComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   readonly searchControl = new FormControl<string>('', { nonNullable: true });
+  selectedTabIndex = 0;
   readonly form = new FormGroup({
     id: new FormControl<string | null>({ value: null, disabled: true }, [Validators.required]),
     name: new FormControl<string>('', {
@@ -46,7 +49,9 @@ export class BooksComponent implements OnDestroy {
     showEditButton: true,
     showDeleteButton: true,
     editButtonLabel: 'Edit',
-    deleteButtonLabel: 'Delete',
+    deleteButtonLabel: 'Archive',
+    editButtonIcon: 'edit',
+    deleteButtonIcon: 'archive',
     pageSizeOptions: [5, 10, 20, 50],
     pageSize: 10,
     sortable: true,
@@ -62,7 +67,9 @@ export class BooksComponent implements OnDestroy {
 
   constructor(
     private readonly booksService: BooksService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.books$ = this.booksService.books$;
 
@@ -75,6 +82,21 @@ export class BooksComponent implements OnDestroy {
     );
 
     this.setupIdValidator();
+  }
+
+  ngOnInit(): void {
+    // Detectar la ruta actual para establecer el tab activo
+    this.updateSelectedTab();
+    
+    // Escuchar cambios de navegación
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.updateSelectedTab();
+      });
   }
 
   ngOnDestroy(): void {
@@ -147,14 +169,14 @@ export class BooksComponent implements OnDestroy {
   }
 
   delete(book: Book): void {
-    // Simular carga en DB al borrar un libro
+    // Simular carga en DB al archivar un libro
     this.isLoading = true;
     
     // Simular una operación asíncrona de base de datos (1.5 segundos)
     setTimeout(() => {
-      this.booksService.remove(book.id);
+      this.booksService.archive(book.id);
       
-      this.snackBar.open('Book deleted successfully', 'Cerrar', {
+      this.snackBar.open('Book archived successfully', 'Cerrar', {
         duration: 3000,
         verticalPosition: 'bottom',
         horizontalPosition: 'center',
@@ -258,5 +280,22 @@ export class BooksComponent implements OnDestroy {
 
     const [, message] = errorEntry;
     return message;
+  }
+
+  onTabChange(event: any): void {
+    if (event.index === 0) {
+      this.router.navigate(['/books']);
+    } else if (event.index === 1) {
+      this.router.navigate(['/books/archived']);
+    }
+  }
+
+  private updateSelectedTab(): void {
+    const url = this.router.url;
+    if (url.includes('/archived')) {
+      this.selectedTabIndex = 1;
+    } else {
+      this.selectedTabIndex = 0;
+    }
   }
 }

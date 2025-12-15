@@ -1,0 +1,60 @@
+<mat-progress-bar *ngIf="isLoading" mode="indeterminate" class=""></mat-progress-bar>  
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 py-8 px-4">
+  <div class="max-w-6xl mx-auto space-y-6">
+    <!-- Navigation Tabs -->
+    <mat-tab-group class="mb-6" [selectedIndex]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
+      <mat-tab label="Active Books"></mat-tab>
+      <mat-tab label="Archived Books"></mat-tab>
+    </mat-tab-group>
+
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-slate-800 !mb-0 !leading-none">Archived Books</h1>
+        <p class="pl-2 text-slate-600 text-medium !mt-0.5">View and manage archived books</p>
+      </div>
+  
+      <mat-form-field class="w-full sm:w-80 bg-white rounded-lg">
+        <mat-label>Search archived books</mat-label>
+        <input
+          matInput
+          placeholder="Type to search..."
+          [formControl]="searchControl"
+        />
+      </mat-form-field>
+    </div>
+  
+    <!-- Table Card -->
+    <mat-card class="bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl animate-fadeIn">
+      <mat-card-header class="mb-5 pb-4">
+        <mat-card-title class="text-xl font-semibold text-slate-800">
+          <div class="flex items-center gap-4">
+            <div>
+              <mat-icon class="text-[24px] w-6 h-6 flex items-center text-amber-600 justify-center">archive</mat-icon>
+            </div>
+            <div>
+              <span class="leading-none">Archived Book Collection</span>
+            </div>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content class="p-0">
+        <perc-data-table
+          [data]="(filteredArchivedBooks$ | async) ?? []"
+          [columns]="tableColumns"
+          [config]="tableConfig"
+          [totalDataCount]="(archivedBooks$ | async)?.length ?? 0"
+          [isLoading]="isLoading"
+          (edit)="onRestoreBook($event)"
+          (delete)="onDeletePermanently($event)"
+        ></perc-data-table>
+      </mat-card-content>
+    </mat-card>
+    <perc-alert
+      type="warning"
+      message="Archived books can be restored or permanently deleted. Data is stored <strong>in memory</strong>. Reloading the page will reset the list."
+      class="mt-6"
+  ></perc-alert>
+  </div>
+</div>

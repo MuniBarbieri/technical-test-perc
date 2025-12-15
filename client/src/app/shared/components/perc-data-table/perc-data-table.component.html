@@ -38,7 +38,7 @@
             <perc-button
               *ngIf="configMerged.showEditButton"
               [label]="configMerged.editButtonLabel"
-              icon="edit"
+              [icon]="configMerged.editButtonIcon || 'edit'"
               color="primary"
               [disabled]="isLoading"
               (clicked)="onEditClick(item)"
@@ -48,7 +48,7 @@
             <perc-button
               *ngIf="configMerged.showDeleteButton"
               [label]="configMerged.deleteButtonLabel"
-              icon="delete"
+              [icon]="configMerged.deleteButtonIcon || 'delete'"
               color="warn"
               [disabled]="isLoading"
               (clicked)="onDeleteClick(item)"

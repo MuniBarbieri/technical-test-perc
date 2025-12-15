@@ -15,6 +15,8 @@ export interface PercDataTableConfig {
   showDeleteButton?: boolean;
   editButtonLabel?: string;
   deleteButtonLabel?: string;
+  editButtonIcon?: string;
+  deleteButtonIcon?: string;
   pageSizeOptions?: number[];
   pageSize?: number;
   sortable?: boolean;
@@ -52,6 +54,8 @@ export class PercDataTableComponent<T = any> implements AfterViewInit, OnChanges
     showDeleteButton: false,
     editButtonLabel: 'Edit',
     deleteButtonLabel: 'Delete',
+    editButtonIcon: 'edit',
+    deleteButtonIcon: 'delete',
     pageSizeOptions: [5, 10, 20, 50],
     pageSize: 10,
     sortable: true,
