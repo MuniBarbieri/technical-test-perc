@@ -7,6 +7,7 @@ import { Book } from '../../shared/models';
 import { PercDataTableColumn, PercDataTableConfig } from '../../shared/components/perc-data-table/perc-data-table.component';
 
 const MIN_BOOK_NAME_LENGTH = 2;
+const MAX_BOOK_NAME_LENGTH = 100;
 
 @Component({
   selector: 'app-books',
@@ -21,7 +22,7 @@ export class BooksComponent implements OnDestroy {
     id: new FormControl<string | null>({ value: null, disabled: true }, [Validators.required]),
     name: new FormControl<string>('', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(MIN_BOOK_NAME_LENGTH)],
+      validators: [Validators.required, Validators.minLength(MIN_BOOK_NAME_LENGTH), Validators.maxLength(MAX_BOOK_NAME_LENGTH)],
     }),
   });
 
@@ -186,6 +187,7 @@ export class BooksComponent implements OnDestroy {
     return this.getControlError(this.form.controls.name, {
       required: 'Name is required',
       minlength: `Name must be at least ${MIN_BOOK_NAME_LENGTH} characters`,
+      maxlength: `Name must be less than ${MAX_BOOK_NAME_LENGTH} characters`,
     });
   }
 

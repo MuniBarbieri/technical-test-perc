@@ -1,2 +1,23 @@
 /* Material Sort Header Styles - Required for Angular Material components */
 
+/* Fixed table layout to respect column widths */
+::ng-deep table.mat-table,
+::ng-deep table.mat-mdc-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Allow text wrapping for cells that need it (like name column) */
+::ng-deep .mat-mdc-cell {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Keep ID and Actions columns from wrapping */
+::ng-deep .mat-mdc-cell[style*="width: 100px"],
+::ng-deep .mat-mdc-cell[style*="width: 280px"] {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
