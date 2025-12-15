@@ -1,0 +1,19 @@
+<div 
+  class="p-4 rounded-lg backdrop-blur-md transition-all duration-200"
+  [ngClass]="getAlertClasses()"
+  [class]="class || ''"
+>
+  <div class="flex items-center gap-3">
+    <mat-icon 
+      class="flex-shrink-0"
+      [ngClass]="getIconClasses()"
+    >
+      {{ displayIcon }}
+    </mat-icon>
+    <p 
+      class="text-xs flex-1"
+      [ngClass]="getTextClasses()"
+      [innerHTML]="message"
+    ></p>
+  </div>
+</div>

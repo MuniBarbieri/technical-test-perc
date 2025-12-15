@@ -4,8 +4,8 @@
       <!-- Header -->
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 class="text-4xl font-bold text-slate-800 mb-2">Books Management</h1>
-          <p class="text-slate-600 text-sm">Manage your book collection</p>
+          <h1 class="text-4xl font-bold text-slate-800 !mb-0 !leading-none">Books Management</h1>
+          <p class="pl-2 text-slate-600 text-medium !mt-0.5">Manage your book collection</p>
         </div>
     
         <mat-form-field class="w-full sm:w-80 bg-white rounded-lg">
@@ -22,7 +22,17 @@
       <mat-card class="bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl animate-fadeIn">
         <mat-card-header class="mb-5 pb-4">
           <mat-card-title class="text-2xl font-semibold text-slate-800">
-            {{ isEditing ? '✏️ Edit Book' : '➕ Create New Book' }}
+            <div class="flex items-center gap-4">
+              <div>
+                <mat-icon 
+                  class="text-[28px] w-7 h-7 flex items-center justify-center"
+                  [ngClass]="isEditing ? 'text-blue-600' : 'text-green-600'"
+                >{{ isEditing ? 'edit' : 'add' }}</mat-icon>
+              </div>
+              <div>
+                <span class="leading-none">{{ isEditing ? 'Edit Book' : 'Add New Book' }}</span>
+              </div>
+            </div>
           </mat-card-title>
         </mat-card-header>
     
@@ -75,7 +85,14 @@
       <mat-card class="bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl animate-fadeIn">
         <mat-card-header class="mb-5 pb-4">
           <mat-card-title class="text-xl font-semibold text-slate-800">
-            📚 Book Collection
+            <div class="flex items-center gap-4">
+              <div>
+                <mat-icon class="text-[24px] w-6 h-6 flex items-center text-indigo-600 justify-center">menu_book</mat-icon>
+              </div>
+              <div>
+                <span class="leading-none">Book Collection</span>
+              </div>
+            </div>
           </mat-card-title>
         </mat-card-header>
         
@@ -93,11 +110,11 @@
         </mat-card-content>
       </mat-card>
     
-      <div class="mt-6 p-4 bg-white/60 rounded-lg backdrop-blur-md">
-        <p class="text-xs text-slate-500 text-center">
-          ℹ️ Data is stored <strong>in memory</strong>. Reloading the page will reset the list.
-        </p>
-      </div>
+      <perc-alert
+        type="warning"
+        message="Data is stored <strong>in memory</strong>. Reloading the page will reset the list."
+        class="mt-6"
+      ></perc-alert>
     </div>
   </div>
   

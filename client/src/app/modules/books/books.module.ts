@@ -11,6 +11,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BooksComponent } from './books.component';
 import { PercDataTableComponent } from '../../shared/components/perc-data-table/perc-data-table.component';
 import { PercButtonComponent } from '../../shared/components/perc-button/perc-button.component';
+import { PercAlertComponent } from '../../shared/components/perc-alert/perc-alert.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
@@ -19,7 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @NgModule({
-  declarations: [BooksComponent, PercDataTableComponent, PercButtonComponent],
+  declarations: [BooksComponent, PercDataTableComponent, PercButtonComponent, PercAlertComponent],
   imports: [
     RouterModule.forChild(booksRoutes),
     CommonModule,
