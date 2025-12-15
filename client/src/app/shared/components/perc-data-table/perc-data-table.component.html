@@ -23,27 +23,25 @@
         </th>
         <td mat-cell *matCellDef="let item" class="px-6 py-4 text-sm text-slate-700 border-b border-slate-200 text-center">
           <div class="flex gap-2 justify-center items-center">
-            <button
+            <perc-button
               *ngIf="configMerged.showEditButton"
-              mat-button
+              [label]="configMerged.editButtonLabel"
+              icon="edit"
               color="primary"
-              (click)="onEditClick(item, $event)"
-              class="inline-flex items-center gap-1 min-w-0 px-4 py-2 text-sm transition-all duration-200 hover:bg-indigo-50 hover:-translate-y-0.5"
-            >
-              <mat-icon>edit</mat-icon>
-              {{ configMerged.editButtonLabel }}
-            </button>
+              [disabled]="isLoading"
+              (clicked)="onEditClick(item)"
+              class="min-w-0 px-4 py-2 text-sm transition-all duration-200  hover:-translate-y-0.5"
+            ></perc-button>
 
-            <button
+            <perc-button
               *ngIf="configMerged.showDeleteButton"
-              mat-button
+              [label]="configMerged.deleteButtonLabel"
+              icon="delete"
               color="warn"
-              (click)="onDeleteClick(item, $event)"
-              class="inline-flex items-center gap-1 min-w-0 px-4 py-2 text-sm transition-all duration-200 hover:bg-red-50 hover:-translate-y-0.5"
-            >
-              <mat-icon>delete</mat-icon>
-              {{ configMerged.deleteButtonLabel }}
-            </button>
+              [disabled]="isLoading"
+              (clicked)="onDeleteClick(item)"
+              class="min-w-0 px-4 py-2 text-sm transition-all duration-200 hover:-translate-y-0.5"
+            ></perc-button>
           </div>
         </td>
       </ng-container>

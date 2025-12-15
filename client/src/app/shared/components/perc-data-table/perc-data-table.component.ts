@@ -36,6 +36,7 @@ export class PercDataTableComponent<T = any> implements AfterViewInit, OnChanges
   @Input() config: PercDataTableConfig = {};
   @Input() selectedItem: T | null = null;
   @Input() totalDataCount: number = 0; // Total de datos originales (sin filtrar)
+  @Input() isLoading: boolean = false;
   
   @Output() edit = new EventEmitter<T>();
   @Output() delete = new EventEmitter<T>();

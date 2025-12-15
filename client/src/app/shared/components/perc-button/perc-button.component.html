@@ -1,0 +1,12 @@
+<button
+  mat-button
+  [color]="color"
+  [disabled]="disabled"
+  [type]="type"
+  (click)="onClick($event)"
+  class="inline-flex items-center gap-2"
+  [ngClass]="class"
+>
+  <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+  <span>{{ label }}</span>
+</button>
